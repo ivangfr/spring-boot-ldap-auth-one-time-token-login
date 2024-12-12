@@ -1,4 +1,4 @@
-package com.ivanfranchin.moviesapp.serializer;
+package com.ivanfranchin.moviesapp.ldap.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

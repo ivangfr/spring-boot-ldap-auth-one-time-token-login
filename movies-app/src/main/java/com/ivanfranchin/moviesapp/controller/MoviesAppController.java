@@ -20,4 +20,9 @@ public class MoviesAppController {
     public String movies() {
         return "movies";
     }
+
+    @GetMapping("/users")
+    public String users() {
+        return "users";
+    }
 }

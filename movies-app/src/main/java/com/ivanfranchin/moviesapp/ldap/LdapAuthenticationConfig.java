@@ -1,4 +1,4 @@
-package com.ivanfranchin.moviesapp.security;
+package com.ivanfranchin.moviesapp.ldap;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

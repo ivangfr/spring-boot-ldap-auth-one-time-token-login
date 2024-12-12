@@ -28,7 +28,6 @@ dn: cn=admin,ou=groups,dc=mycompany,dc=com
 cn: admin
 gidnumber: 500
 memberuid: 1000
-memberuid: 1002
 objectclass: posixGroup
 objectclass: top
 
@@ -37,6 +36,7 @@ dn: cn=user,ou=groups,dc=mycompany,dc=com
 cn: user
 gidnumber: 501
 memberuid: 1001
+memberuid: 1002
 objectclass: posixGroup
 objectclass: top
 

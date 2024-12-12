@@ -1,9 +1,12 @@
 package com.ivanfranchin.moviesapp.security;
 
-import com.ivanfranchin.moviesapp.user.User;
-import com.ivanfranchin.moviesapp.user.UserService;
+import com.ivanfranchin.moviesapp.ldap.group.Group;
+import com.ivanfranchin.moviesapp.ldap.group.GroupRepository;
+import com.ivanfranchin.moviesapp.ldap.user.User;
+import com.ivanfranchin.moviesapp.ldap.user.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -12,16 +15,24 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
-    public CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
+    public CustomUserDetailsService(UserRepository userRepository, GroupRepository groupRepository) {
+        this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
     }
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
-        User user = userService.validateAndGetByUsername(username);
-        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with username %s not found".formatted(username)));
+
+        Group group = groupRepository.findByGidNumber(user.getGidNumber());
+
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(
+                new SimpleGrantedAuthority(group.getName().toUpperCase()));
+
         return mapUserToCustomUserDetails(user, authorities);
     }
 

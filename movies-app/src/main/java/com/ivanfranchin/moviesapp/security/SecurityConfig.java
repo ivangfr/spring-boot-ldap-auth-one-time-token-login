@@ -16,9 +16,9 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
                         authorizeHttpRequests -> authorizeHttpRequests
+                                .requestMatchers(HttpMethod.GET, "/users").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/movies").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/", "/check-email", "/error").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .oneTimeTokenLogin(Customizer.withDefaults())

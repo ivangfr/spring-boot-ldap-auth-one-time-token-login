@@ -1,4 +1,4 @@
-package com.ivanfranchin.moviesapp.user;
+package com.ivanfranchin.moviesapp.ldap.user;
 
 import org.springframework.data.ldap.repository.LdapRepository;
 import org.springframework.stereotype.Repository;
