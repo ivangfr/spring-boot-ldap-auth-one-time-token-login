@@ -2,12 +2,14 @@ package com.ivanfranchin.moviesapp.ldap.user;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ivanfranchin.moviesapp.ldap.serializer.LdapNameSerializer;
+import lombok.Data;
 import org.springframework.ldap.odm.annotations.Attribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
 import javax.naming.ldap.LdapName;
 
+@Data
 @Entry(base = "ou=users", objectClasses = {"inetOrgPerson", "posixAccount"})
 public class User {
 
@@ -29,36 +31,4 @@ public class User {
 
     @Attribute(name = "gidnumber")
     private String gidNumber;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getUidNumber() {
-        return uidNumber;
-    }
-
-    public String getGidNumber() {
-        return gidNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", uidNumber='" + uidNumber + '\'' +
-                ", gidNumber='" + gidNumber + '\'' +
-                '}';
-    }
 }

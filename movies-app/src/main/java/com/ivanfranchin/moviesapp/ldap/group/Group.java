@@ -1,11 +1,13 @@
 package com.ivanfranchin.moviesapp.ldap.group;
 
+import lombok.Data;
 import org.springframework.ldap.odm.annotations.Attribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
 import javax.naming.Name;
 
+@Data
 @Entry(base = "ou=groups", objectClasses = {"posixGroup", "top"})
 public class Group {
 
@@ -17,21 +19,4 @@ public class Group {
 
     @Attribute(name = "cn")
     private String name;
-
-    public String getGidNumber() {
-        return gidNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-                "id=" + id +
-                ", gidNumber='" + gidNumber + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

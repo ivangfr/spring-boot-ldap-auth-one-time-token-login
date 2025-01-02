@@ -4,6 +4,7 @@ import com.ivanfranchin.moviesapp.ldap.group.Group;
 import com.ivanfranchin.moviesapp.ldap.group.GroupRepository;
 import com.ivanfranchin.moviesapp.ldap.user.User;
 import com.ivanfranchin.moviesapp.ldap.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,16 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
-
-    public CustomUserDetailsService(UserRepository userRepository, GroupRepository groupRepository) {
-        this.userRepository = userRepository;
-        this.groupRepository = groupRepository;
-    }
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) {
@@ -37,12 +34,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private CustomUserDetails mapUserToCustomUserDetails(User user, List<SimpleGrantedAuthority> authorities) {
-        return new CustomUserDetails(
-                user.getUsername(),
-                fromAsciiArraytoString(user.getPassword()),
-                user.getName(),
-                authorities
-        );
+        CustomUserDetails customUserDetails = new CustomUserDetails();
+        customUserDetails.setUsername(user.getUsername());
+        customUserDetails.setPassword(fromAsciiArraytoString(user.getPassword()));
+        customUserDetails.setName(user.getUsername());
+        customUserDetails.setAuthorities(authorities);
+        return customUserDetails;
     }
 
     private String fromAsciiArraytoString(String asciiArray) {

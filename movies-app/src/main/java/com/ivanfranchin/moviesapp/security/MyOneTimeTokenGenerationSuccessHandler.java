@@ -3,6 +3,7 @@ package com.ivanfranchin.moviesapp.security;
 import com.ivanfranchin.moviesapp.email.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.ott.OneTimeToken;
 import org.springframework.security.web.authentication.ott.OneTimeTokenGenerationSuccessHandler;
 import org.springframework.security.web.util.UrlUtils;
@@ -11,14 +12,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 @Component
 public class MyOneTimeTokenGenerationSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
 
     private final EmailService emailService;
-
-    public MyOneTimeTokenGenerationSuccessHandler(EmailService emailService) {
-        this.emailService = emailService;
-    }
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, OneTimeToken oneTimeToken) throws IOException {
