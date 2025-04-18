@@ -14,7 +14,11 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - ### movies-app
 
-  A `Spring Boot` Java web application that provides a user interface for accessing movie information. During startup, an admin for the Movies App is created with the username `admin` and the password `admin`. Users must register by providing a username, password, and email. Once registered, both admin and users can log in either with their username and password or by requesting a one-time token sent to their email.
+  A `Spring Boot` Java web application that provides a user interface for accessing movie information.
+
+  The application is connected to an `OpenLDAP` server running in a Docker container.
+
+  Users can log in either with their _username_ and _password_ or by requesting a one-time token sent to their _email_.
 
 - ### MailPit
 
@@ -29,15 +33,15 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - In a terminal, navigate to `spring-boot-ldap-auth-one-time-token-login` root folder;
 
-- Run the following command to start docker compose containers:
-  ```
+- Run the following command to start Docker Compose containers:
+  ```bash
   docker compose up -d
   ```
 
 ## Import OpenLDAP Users
 
 The `LDIF` file we will use, `ldap/ldap-mycompany-com.ldif`, contains a pre-defined structure for `mycompany.com`. Basically, it has 2 groups (`admin` and `user`) and 3 users (`Ivan Franchin`, `Bill Gates` and `Steve Jobs`). Besides, it's defined that `Ivan Franchin` belongs to `admin` group, and `Bill Gates` and `Steve Jobs` belong to `user` group.
-```
+```text
 Ivan Franchin > username: ifranchin, password: 123
 Bill Gates > username: bgates, password: 123
 Steve Jobs > username: sjobs, password: 123
@@ -47,15 +51,15 @@ There are two ways to import those users: by running a script or by using [`phpL
 
 ### Import users running a script
 
-- In a terminal, make use you are in the `spring-boot-ldap-auth-one-time-token-login` root folder;
+- In a terminal, make sure you are in the `spring-boot-ldap-auth-one-time-token-login` root folder;
 
 - Run the following script:
-  ```
+  ```bash
   ./import-openldap-users.sh
   ```
 
 - Check users imported using [`ldapsearch`](https://linux.die.net/man/1/ldapsearch):
-  ```
+  ```bash
   ldapsearch -x -D "cn=admin,dc=mycompany,dc=com" \
     -w admin -H ldap://localhost:389 \
     -b "ou=users,dc=mycompany,dc=com" \
@@ -67,7 +71,7 @@ There are two ways to import those users: by running a script or by using [`phpL
 - Access https://localhost:6443
 
 - Login with the following credentials:
-  ```
+  ```text
   Login DN: cn=admin,dc=mycompany,dc=com
   Password: admin
   ```
@@ -82,7 +86,7 @@ There are two ways to import those users: by running a script or by using [`phpL
 - In a terminal, make sure you are in `spring-boot-ldap-auth-one-time-token-login` folder;
 
 - Run the following `Maven` command to start the application:
-  ```
+  ```bash
   ./mvnw clean spring-boot:run --projects movies-app
   ```
 
@@ -109,7 +113,7 @@ There are two ways to import those users: by running a script or by using [`phpL
 ## Shutdown
 
 - To stop `movies-app`, go to the terminal where it's running and press `Ctrl+C`;
-- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `spring-boot-ldap-auth-one-time-token-login` root folder, run the command below:
-  ```
+- To stop and remove Docker Compose containers, network and volumes, go to a terminal and, inside `spring-boot-ldap-auth-one-time-token-login` root folder, run the command below:
+  ```bash
   docker compose down -v
   ```

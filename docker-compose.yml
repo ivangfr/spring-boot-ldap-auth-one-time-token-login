@@ -20,7 +20,7 @@ services:
       - 'openldap'
 
   mailpit:
-    image: 'axllent/mailpit:v1.21.5'
+    image: 'axllent/mailpit:v1.24.1'
     container_name: 'mailpit'
     ports:
       - '1025:1025'
